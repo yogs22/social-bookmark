@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Content;
+use Faker\Factory as Faker;
+use Embed\Embed;
 
 class ContentController extends Controller
 {
@@ -13,7 +16,9 @@ class ContentController extends Controller
      */
     public function index()
     {
-        //
+        $contents = Content::latest()->paginate();
+
+        return view('contents.index', compact('contents'));
     }
 
     /**
@@ -23,7 +28,7 @@ class ContentController extends Controller
      */
     public function create()
     {
-        //
+        return view('contents.create');
     }
 
     /**
@@ -34,7 +39,25 @@ class ContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $embed = new Embed();
+        $faker = Faker::create('id_ID');
+
+        try {
+            $info = $embed->get($request->url);
+
+            $content = new Content;
+            $content->title = $info->title;
+            $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $info->title)));
+            $content->description = $info->description;
+            $content->content_url = $request->url;
+            $content->image_url = $info->image->getScheme() . '://' . $info->image->getHost() . $info->image->getPath();
+            $content->status = 200;
+            $content->save();
+
+            return redirect()->route('content.index')->with('message', 'Content berhasil ditambahkan');
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 
     /**

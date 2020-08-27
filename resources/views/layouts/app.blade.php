@@ -38,6 +38,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('content.index') }}">{{ __('Content') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('content.create') }}">{{ __('Create Content') }}</a>
+                            </li>
                         @endguest
                     </ul>
 
