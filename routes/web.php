@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::resource('/content', 'ContentController')->middleware(['web', 'auth']);
+Route::resource('/content', 'ContentController');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/{slug}', 'HomeController@single')->name('home.single');

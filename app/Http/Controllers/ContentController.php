@@ -10,6 +10,16 @@ use Embed\Embed;
 class ContentController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -50,7 +60,7 @@ class ContentController extends Controller
             $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $info->title)));
             $content->description = $info->description;
             $content->content_url = $request->url;
-            $content->image_url = $info->image->getScheme() . '://' . $info->image->getHost() . $info->image->getPath();
+            $content->image_url = "{$info->image->getScheme()}://{$info->image->getHost()}{$info->image->getPath()}";
             $content->status = 200;
             $content->save();
 
