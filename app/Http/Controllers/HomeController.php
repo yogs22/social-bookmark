@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Content;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $contents = Content::paginate(6);
+
+        return view('home', compact('contents'));
+    }
+
+    public function single($slug)
+    {
+        $content = Content::where('slug', $slug)->first();
+
+        return view('single', compact('content'));
     }
 }
