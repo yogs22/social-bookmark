@@ -10,6 +10,11 @@ class Content extends Model
         'title', 'slug', 'description', 'image_url', 'content_url', 'status'
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 200);
+    }
+
     public function getStatusRawAttribute()
     {
         switch ($this->status) {
