@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('page_title')
+    {{ $content->title }} - {{ config('app.name', 'Laravel') }}
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row d-flex justify-content-center">

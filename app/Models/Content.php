@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Content extends Model
 {
@@ -13,6 +14,16 @@ class Content extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 200);
+    }
+
+    public function getCreatedAtFormatedAttribute()
+    {
+        return Carbon::parse($this->created_at)->formatLocalized('%d %b %y / %H:%I');
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('home.single', $this->slug);
     }
 
     public function getStatusRawAttribute()

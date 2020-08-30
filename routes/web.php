@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::resource('/content', 'ContentController');
+Route::resource('/content', 'ContentController')->except(['edit', 'show', 'update']);
+Route::get('/content/download', 'ContentController@download')->name('content.download');
+Route::post('/content/download', 'ContentController@downloadReport')->name('content.report');
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/{slug}', 'HomeController@single')->name('home.single');
