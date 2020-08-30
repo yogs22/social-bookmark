@@ -9,7 +9,7 @@
                         <form @submit.prevent="processGrab()">
                             <div class="form-group">
                                 <label for="url">Masukkan URL</label>
-                                <textarea name="url" rows="5" class="form-control" v-model="form.url"></textarea>
+                                <textarea name="url" rows="5" class="form-control" placeholder="Pisahkan dengan enter" v-model="form.url"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary w-25" :disabled="disabled">Submit</button>
                             <div class="progress mt-4" v-show="progressBar">
