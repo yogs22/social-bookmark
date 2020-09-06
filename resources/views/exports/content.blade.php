@@ -33,7 +33,8 @@
                 <tr>
                     <th>No</th>
                     <th>Title</th>
-                    <th>Tanggal</th>
+                    <th>Status</th>
+                    <th>Tanggal Publish</th>
                     <th>Original URL</th>
                     <th>Bookmark URL</th>
                 </tr>
@@ -43,7 +44,8 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $content->title }}</td>
-                        <td>{{ $content->created_at_formated }}</td>
+                        <td>{!! $content->published_status !!}</td>
+                        <td>{{ $content->published_at_formated }}</td>
                         <td>
                             <a href="{{ $content->content_url }}" class="btn btn-primary" target="_blank" rel="noreferrer">
                                 {{ $content->content_url }}

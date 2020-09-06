@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-5">
                             <form method="get">
-                                <input type="text" name="q" class="form-control mb-3" placeholder="Cari berdasarkan link, lalu tekan enter" value="{{ request('q') }}">
+                                <input type="text" name="q" class="form-control mb-3" placeholder="Cari berdasarkan link / judul, lalu tekan enter" value="{{ request('q') }}">
                             </form>
                         </div>
                         <div class="col-md-7 text-sm-right">
@@ -30,8 +30,9 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th width="700px">Title</th>
-                                    <th>Tanggal</th>
+                                    <th width="600px">Title</th>
+                                    <th>Status</th>
+                                    <th>Tanggal Publish</th>
                                     <th>Content</th>
                                     <th>Action</th>
                                 </tr>
@@ -45,7 +46,8 @@
                                                 {{ $content->title }}
                                             </a>
                                         </td>
-                                        <td>{{ $content->created_at_formated }}</td>
+                                        <td>{!! $content->published_status !!}</td>
+                                        <td>{{ $content->published_at_formated }}</td>
                                         <td>
                                             <a href="{{ $content->content_url }}" class="btn btn-primary" target="_blank" rel="noreferrer">
                                                 URL

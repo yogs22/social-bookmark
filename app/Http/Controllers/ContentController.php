@@ -27,13 +27,10 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::latest();
-
-        if (request('q')) {
-            $contents->where('content_url', 'like', '%'. request('q') .'%');
-        }
-
-        $contents = $contents->paginate();
+        $contents = Content::orderBy('published_at', 'desc')->when(request('q'), function($query) {
+            $query->where('content_url', 'like', '%'. request('q') .'%')
+                ->orWhere('title', 'like', '%'. request('q') .'%');
+        })->paginate();
 
         return view('contents.index', compact('contents'));
     }
@@ -75,6 +72,7 @@ class ContentController extends Controller
             $content->description = $description;
             $content->content_url = $request->url;
             $content->image_url = $image;
+            $content->published_at = $request->published_at;
             $content->status = 200;
             $content->save();
 
@@ -114,10 +112,14 @@ class ContentController extends Controller
 
     public function downloadReport(Request $request)
     {
-        $contents = Content::latest()
+        $contents = Content::orderBy('published_at', 'desc')
             ->when(request('start_date') && request('end_date'), function ($query) {
-                return $query->whereBetween('created_at', [request('start_date') . ' 00:00', request('end_date') . ' 23:59']);
-            })->get();
+                return $query->whereBetween('published_at', [request('start_date') . ' 00:00', request('end_date') . ' 23:59']);
+            })
+            ->when(request('is_active'), function ($query) {
+                return $query->active();
+            })
+            ->get();
 
         $request = $request->all();
 

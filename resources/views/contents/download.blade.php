@@ -15,12 +15,16 @@
                     <form action="{{ route('content.report') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="start_date">Tanggal Mulai</label>
+                            <label for="start_date">Tanggal Publish Mulai</label>
                             <input type="date" name="start_date" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="start_date">Tanggal Akhir</label>
+                            <label for="start_date">Tanggal Publish Akhir</label>
                             <input type="date" name="end_date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="is_active">
+                            <label for="start_date">Hanya konten aktif</label>
                         </div>
                         <div class="form-group">
                             <p class="text-danger">* Kosongi input jika tidak ingin menggunakan range tanggal</p>

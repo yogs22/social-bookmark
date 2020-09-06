@@ -14,14 +14,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $contents = Content::latest()->paginate(6);
+        $contents = Content::orderBy('published_at', 'desc')->active()->paginate(6);
 
         return view('home', compact('contents'));
     }
 
     public function single($slug)
     {
-        $content = Content::where('slug', $slug)->first();
+        $content = Content::active()->where('slug', $slug)->first();
+
+        if (empty($content)) {
+            abort(404);
+        }
 
         return view('single', compact('content'));
     }

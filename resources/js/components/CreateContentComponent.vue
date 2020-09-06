@@ -53,8 +53,9 @@
 
         methods: {
             async processGrab() {
-                var items = this.form.url.split("\n")
-                var total = Math.ceil(100 / items.length)
+                let items = this.form.url.split("\n")
+                let total = Math.ceil(100 / items.length)
+                let time = 3
 
                 this.progress = 0
                 this.progressPercent = 0
@@ -65,8 +66,12 @@
                 this.progressBar = true
                 this.disabled = true
 
-                for (var i = 0; i < items.length; i++) {
-                    axios.post(`${this.origin}/api/content`, { url: items[i] })
+                for (let i = 0; i < items.length; i++) {
+                    let hours = new Date()
+                    hours.setHours(hours.getHours() + (time * i))
+                    console.log(hours)
+
+                    axios.post(`${this.origin}/api/content`, { url: items[i], published_at: hours })
                     .then((resp) => {
                         this.contents.push(resp.data.payload)
                         this.progress += total;

@@ -10,6 +10,9 @@
                     <a href="{{ route('home.single', $content->slug) }}">
                         <h5 class="card-title">{{ $content->title }}</h5>
                     </a>
+                    <p class="text-muted">
+                        {{ $content->published_at_formated }}
+                    </p>
                     <p class="card-text">
                         {{ substr($content->description, 0, 130) . '...' }}
                     </p>

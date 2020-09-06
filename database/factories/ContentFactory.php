@@ -14,6 +14,7 @@ $factory->define(Content::class, function (Faker $faker) {
         'description' => $faker->text,
         'image_url' => $faker->imageUrl('1000', '800'),
         'content_url' => $faker->url,
-        'status' => 200
+        'status' => 200,
+        'published_at' => now()
     ];
 });

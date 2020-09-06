@@ -8,12 +8,35 @@ use Carbon\Carbon;
 class Content extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'description', 'image_url', 'content_url', 'status'
+        'title', 'slug', 'description', 'image_url', 'content_url', 'status', 'published_at'
     ];
 
     public function scopeActive($query)
     {
-        return $query->where('status', 200);
+        return $query->where('status', 200)->whereDate('published_at', '<=', now());
+    }
+
+    public function setPublishedAtAttribute($value)
+    {
+        $this->attributes['published_at'] = Carbon::parse($value)->format('Y-m-d H:i:s');
+    }
+
+    public function getPublishedStatusAttribute()
+    {
+        if ($this->published_at <= now()) {
+            return '<span class="text-success">Published</span>';
+        }
+
+        return '<span class="text-danger">Pending</span>';
+    }
+
+    public function getPublishedAtFormatedAttribute()
+    {
+        if ($this->published_at === null) {
+            return null;
+        }
+
+        return Carbon::parse($this->published_at)->formatLocalized('%d %b %y / %H:%I');
     }
 
     public function getCreatedAtFormatedAttribute()

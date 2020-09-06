@@ -21,6 +21,7 @@ class CreateContentsTable extends Migration
             $table->text('content_url');
             $table->text('image_url');
             $table->string('status');
+            $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });
     }
