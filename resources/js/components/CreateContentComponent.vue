@@ -67,11 +67,22 @@
                 this.disabled = true
 
                 for (let i = 0; i < items.length; i++) {
-                    let hours = new Date()
-                    hours.setHours(hours.getHours() + (time * i))
-                    console.log(hours)
+                    let date = new Date()
+                    date.setHours(date.getHours() + (time * i))
+                    date.toLocaleString()
 
-                    axios.post(`${this.origin}/api/content`, { url: items[i], published_at: hours })
+                    var mm = date.getMonth() + 1;
+                    var dd = date.getDate();
+                    var yy = date.getFullYear();
+
+                    var sc = date.getSeconds();
+                    var mt = date.getMinutes();
+                    var hr = date.getHours();
+
+                    let published_at = `${yy}-${mm}-${dd} ${hr}:${mt}:${sc}`
+                    console.log(published_at)
+
+                    axios.post(`${this.origin}/api/content`, { url: items[i], published_at: published_at })
                     .then((resp) => {
                         this.contents.push(resp.data.payload)
                         this.progress += total;

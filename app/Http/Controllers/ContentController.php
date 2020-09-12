@@ -7,6 +7,7 @@ use App\Models\Content;
 use App\Exports\ContentExport;
 use Faker\Factory as Faker;
 use Embed\Embed;
+use Carbon\Carbon;
 
 class ContentController extends Controller
 {
@@ -72,7 +73,7 @@ class ContentController extends Controller
             $content->description = $description;
             $content->content_url = $request->url;
             $content->image_url = $image;
-            $content->published_at = $request->published_at;
+            $content->published_at = Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
             $content->status = 200;
             $content->save();
 
