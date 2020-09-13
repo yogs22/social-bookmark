@@ -13,7 +13,7 @@ class Content extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('status', 200)->whereDate('published_at', '<=', now());
+        return $query->where('status', 200)->where('published_at', '<=', now());
     }
 
     public function setPublishedAtAttribute($value)
