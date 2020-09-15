@@ -87,6 +87,7 @@ class ContentController extends Controller
             $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
             $content->description = $description;
             $content->content_url = $request->url;
+            $content->user_id = $request->user_id;
             $content->image_url = $image;
             $content->published_at = Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
             $content->status = 200;

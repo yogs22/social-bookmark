@@ -86,7 +86,7 @@
         if (localStorage.getItem('user_id') != undefined) {
             localStorage.removeItem('user_id')
         }
-        localStorage.setItem("user_id", {{ \Auth::user()->id }});
+        localStorage.setItem("user_id", {{ @\Auth::user()->id }});
     </script>
 </body>
 </html>
