@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-    <create-content-component></create-content-component>
+    <create-content-component user-id="{{ \Auth::user()->id }}"></create-content-component>
 @endsection

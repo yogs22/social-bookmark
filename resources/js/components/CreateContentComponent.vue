@@ -7,6 +7,7 @@
 
                     <div class="card-body">
                         <form @submit.prevent="processGrab()">
+                            <input type="hidden" v-model="form.user_id">
                             <div class="form-group">
                                 <label for="url">Masukkan URL (https://www.google.com)</label>
                                 <textarea name="url" rows="5" class="form-control" placeholder="Pisahkan dengan enter" v-model="form.url"></textarea>
@@ -39,8 +40,10 @@
         data() {
             return {
                 form: {
-                    url: ''
+                    url: '',
+                    user_id: ''
                 },
+                name: null,
                 contents: [],
                 progressBar: false,
                 progress: 0,
@@ -49,6 +52,10 @@
                 disabled: false,
                 origin: window.location.origin
             }
+        },
+
+        created() {
+            this.form.user_id = localStorage.getItem("user_id")
         },
 
         methods: {
@@ -82,7 +89,7 @@
                     let published_at = `${yy}-${mm}-${dd} ${hr}:${mt}:${sc}`
                     console.log(published_at)
 
-                    axios.post(`${this.origin}/api/content`, { url: items[i], published_at: published_at })
+                    axios.post(`${this.origin}/api/content`, { url: items[i], user_id: this.form.user_id, published_at: published_at })
                     .then((resp) => {
                         this.contents.push(resp.data.payload)
                         this.progress += total;

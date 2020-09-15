@@ -35,6 +35,7 @@
                     <th>Title</th>
                     <th>Status</th>
                     <th>Tanggal Publish</th>
+                    <th>User</th>
                     <th>Original URL</th>
                     <th>Bookmark URL</th>
                 </tr>
@@ -46,6 +47,7 @@
                         <td>{{ $content->title }}</td>
                         <td>{!! $content->published_status !!}</td>
                         <td>{{ $content->published_at_formated }}</td>
+                        <td>{{ @$content->user->name }}</td>
                         <td>
                             <a href="{{ $content->content_url }}" class="btn btn-primary" target="_blank" rel="noreferrer">
                                 {{ $content->content_url }}

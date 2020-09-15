@@ -11,9 +11,19 @@ class Content extends Model
         'title', 'slug', 'description', 'image_url', 'content_url', 'status', 'published_at'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('status', 200)->where('published_at', '<=', now());
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('published_at', '>', now());
     }
 
     public function setPublishedAtAttribute($value)

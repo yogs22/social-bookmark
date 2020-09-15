@@ -23,6 +23,15 @@
                             <input type="date" name="end_date" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label for="start_date">User</label>
+                            <select class="form-control" name="user_id">
+                                <option value="">Semua User</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <input type="checkbox" name="is_active">
                             <label for="start_date">Hanya konten aktif</label>
                         </div>

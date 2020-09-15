@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Content;
+use App\Models\User;
 use App\Exports\ContentExport;
 use Faker\Factory as Faker;
 use Embed\Embed;
@@ -28,12 +29,26 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $contents = Content::orderBy('published_at', 'desc')->when(request('q'), function($query) {
-            $query->where('content_url', 'like', '%'. request('q') .'%')
+        $contents = Content::with('user')->orderBy('published_at', 'desc')
+        ->when(request('q'), function($query) {
+            return $query->where('content_url', 'like', '%'. request('q') .'%')
                 ->orWhere('title', 'like', '%'. request('q') .'%');
-        })->paginate();
+        })
+        ->when(request('status'), function ($query) {
+            if (request('status') == 'published') {
+                return $query->active();
+            } else {
+                return $query->pending();
+            }
+        })
+        ->when(request('user_id'), function ($query) {
+            return $query->where('user_id', request('user_id'));
+        })
+        ->paginate();
 
-        return view('contents.index', compact('contents'));
+        $users = User::all();
+
+        return view('contents.index', compact('contents', 'users'));
     }
 
     /**
@@ -108,7 +123,9 @@ class ContentController extends Controller
 
     public function download()
     {
-        return view('contents.download');
+        $users = User::all();
+
+        return view('contents.download', compact('users'));
     }
 
     public function downloadReport(Request $request)
@@ -116,6 +133,9 @@ class ContentController extends Controller
         $contents = Content::orderBy('published_at', 'desc')
             ->when(request('start_date') && request('end_date'), function ($query) {
                 return $query->whereBetween('published_at', [request('start_date') . ' 00:00', request('end_date') . ' 23:59']);
+            })
+            ->when(request('user_id'), function ($query) {
+                return $query->where('user_id', request('user_id'));
             })
             ->when(request('is_active'), function ($query) {
                 return $query->active();
