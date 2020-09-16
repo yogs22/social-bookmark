@@ -17,9 +17,13 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::resource('/content', 'ContentController')->except(['edit', 'show', 'update']);
-Route::get('/content/download', 'ContentController@download')->name('content.download');
-Route::post('/content/download', 'ContentController@downloadReport')->name('content.report');
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('/content', 'ContentController')->except(['edit', 'show', 'update']);
+    Route::get('/content/download', 'ContentController@download')->name('content.download');
+    Route::post('/content/download', 'ContentController@downloadReport')->name('content.report');
+});
+
+Route::get('/sitemap.xml', 'SitemapController@content')->name('sitemap.content');
 
 Route::get('/', 'HomeController@index')->name('home.index');
 Route::get('/{slug}', 'HomeController@single')->name('home.single');
