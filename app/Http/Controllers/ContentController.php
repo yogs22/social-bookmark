@@ -44,7 +44,8 @@ class ContentController extends Controller
         ->when(request('user_id'), function ($query) {
             return $query->where('user_id', request('user_id'));
         })
-        ->paginate();
+        ->paginate()
+        ->appends(request()->except('page'));
 
         $users = User::all();
 
