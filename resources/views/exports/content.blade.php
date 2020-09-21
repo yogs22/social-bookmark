@@ -54,8 +54,8 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{ $content->url }}" class="btn btn-primary" target="_blank" rel="noreferrer">
-                                {{ $content->url }}
+                            <a href="{{ secure_url("/{$content->slug}") }}" class="btn btn-primary" target="_blank" rel="noreferrer">
+                                {{ secure_url("/{$content->slug}") }}
                             </a>
                         </td>
                     </tr>
