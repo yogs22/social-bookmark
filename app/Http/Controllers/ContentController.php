@@ -85,7 +85,7 @@ class ContentController extends Controller
 
             $content = new Content;
             $content->title = $title;
-            $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+            $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title))).'-'.rand(1,100);
             $content->description = $description;
             $content->content_url = $request->url;
             $content->user_id = $request->user_id;
