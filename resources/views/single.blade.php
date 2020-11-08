@@ -11,7 +11,9 @@
             <div class="card">
                 <img class="card-img-top" src="{{ $content->image_url }}" alt="Card image cap">
                 <div class="card-body">
-                    <h1 class="card-title">{{ $content->title }}</h1>
+                    <a href="{{ $content->content_url }}">
+                        <h1 class="card-title">{{ $content->title }}</h1>
+                    </a>
                     <p class="text-muted">
                         {{ $content->published_at_formated }}
                     </p>
