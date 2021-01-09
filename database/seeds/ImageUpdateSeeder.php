@@ -17,7 +17,7 @@ class ImageUpdateSeeder extends Seeder
             $content->image_url = 'https://picsum.photos/400?random='.mt_rand(1,5);
             $content->update();
 
-            echo "Content" . $content->name;
+            $this->command->info($content->title);
         }
     }
 }
