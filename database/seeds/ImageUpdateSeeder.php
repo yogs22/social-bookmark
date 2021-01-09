@@ -14,7 +14,7 @@ class ImageUpdateSeeder extends Seeder
     {
         $contents = Content::all();
         foreach ($contents as $content) {
-            $content->image_url = 'https://picsum.photos/400?random='.mt_rand(1,5);
+            $content->image_url = 'https://picsum.photos/400/300?random='.mt_rand(1,9);
             $content->update();
 
             $this->command->info($content->title);
