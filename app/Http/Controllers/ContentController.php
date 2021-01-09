@@ -78,7 +78,7 @@ class ContentController extends Controller
 
             $image = $info->image != null
                 ? "{$info->image->getScheme()}://{$info->image->getHost()}{$info->image->getPath()}"
-                : $faker->imageUrl('1000', '800');
+                : 'https://picsum.photos/600/400';
 
             $description = $info->description ?? $faker->text;
             $title = $info->title ?? $faker->name;
