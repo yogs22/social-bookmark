@@ -5,7 +5,7 @@
     <div class="card-columns">
         @foreach ($contents as $content)
             <div class="card">
-                <img class="card-img-top" src="{{ $content->image_url }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ $content->image_url }}" alt="{{ $content->title }}" loading="lazy">
                 <div class="card-body">
                     <a href="{{ route('home.single', $content->slug) }}">
                         <h5 class="card-title">{{ $content->title }}</h5>

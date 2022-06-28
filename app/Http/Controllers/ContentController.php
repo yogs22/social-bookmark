@@ -19,7 +19,7 @@ class ContentController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => 'store']);
+        $this->middleware('auth');
     }
 
     /**
@@ -72,41 +72,34 @@ class ContentController extends Controller
     {
         $embed = new Embed();
         $faker = Faker::create('id_ID');
+        $url = explode(PHP_EOL, $request->url);
 
         try {
-            $info = $embed->get($request->url);
+            foreach ($url as $u) {
+                $info = $embed->get($u);
 
-            $image = $info->image != null
+                $image = $info->image != null
                 ? "{$info->image->getScheme()}://{$info->image->getHost()}{$info->image->getPath()}"
                 : 'https://picsum.photos/400/300?random='.mt_rand(1,9);
 
-            $description = $info->description ?? $faker->text;
-            $title = $info->title ?? $faker->name;
+                $description = $info->description ?? $faker->text;
+                $title = $info->title ?? $faker->name;
 
-            $content = new Content;
-            $content->title = $title;
-            $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title))).'-'.rand(1,100);
-            $content->description = $description;
-            $content->content_url = $request->url;
-            $content->user_id = $request->user_id;
-            $content->image_url = $image;
-            $content->published_at = Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
-            $content->status = 200;
-            $content->save();
+                $content = new Content;
+                $content->title = $title;
+                $content->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title))).'-'.rand(1,100);
+                $content->description = $description;
+                $content->content_url = $request->url;
+                $content->user_id = auth()->user()->id;
+                $content->image_url = $image;
+                $content->published_at = Carbon::parse($request->published_at)->format('Y-m-d H:i:s');
+                $content->status = 200;
+                $content->save();
+            }
 
-            return response()->json([
-                'status' => 200,
-                'payload' => $content
-            ]);
+            return redirect()->route('content.index')->with('message', 'Sukses menambah konten');
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'payload' => [
-                    'title' => 'Error - '.$request->url,
-                    'slug' => '',
-                    'exception' => $e->getMessage()
-                ]
-            ], 400);
+            return $e->getMessage();
         }
     }
 
